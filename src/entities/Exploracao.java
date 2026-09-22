@@ -1,243 +1,129 @@
 package entities;
 
-import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Exploracao {
 
-    Scanner sc = new Scanner(System.in);
+    private Scanner scanner;
+    private Combate combate;
 
+    public Exploracao(Scanner scanner) {
+        this.scanner = scanner;
+        this.combate = new Combate(scanner);
+    }
 
-    public void menuExploracao() {
-        int opcao = 0;
+    public void iniciar(
+            Personagem personagem,
+            Inventario inventario) {
+
+        int opcao;
+
         do {
-            System.out.println("""
-                    Escolha a sua jornada:
-                    1 - Floresta
-                    2 - Caverna
-                    3 - Masmorra
-                    4 - Castelo
-                    5 - Retornar ao menu principal
-                    0 - Sair
-                    """
-            );
-            opcao = sc.nextInt();
+
+            System.out.println();
+            System.out.println("================================");
+            System.out.println("           EXPLORACAO");
+            System.out.println("================================");
+
+            System.out.println("1 - Floresta");
+            System.out.println("2 - Caverna");
+            System.out.println("3 - Montanha");
+            System.out.println("4 - Castelo");
+            System.out.println("0 - Voltar");
+
+            System.out.print("Escolha: ");
+
+            opcao = scanner.nextInt();
+
             switch (opcao) {
+
                 case 1:
-                    floresta();
+                    explorarCenario(
+                            Cenario.FLORESTA,
+                            personagem,
+                            inventario
+                    );
                     break;
+
                 case 2:
-                    caverna();
+                    explorarCenario(
+                            Cenario.CAVERNA,
+                            personagem,
+                            inventario
+                    );
                     break;
+
                 case 3:
-                    masmorra();
+                    explorarCenario(
+                            Cenario.MONTANHA,
+                            personagem,
+                            inventario
+                    );
                     break;
+
                 case 4:
-                    castelo();
+                    explorarCenario(
+                            Cenario.CASTELO,
+                            personagem,
+                            inventario
+                    );
                     break;
-                case 5:
-                    //voltar();
+
+                case 0:
+                    System.out.println(
+                            "Voltando para a vila..."
+                    );
                     break;
+
+                default:
+                    System.out.println(
+                            "Opcao invalida."
+                    );
             }
+
         } while (opcao != 0);
     }
 
-    private void caverna() {
-        System.out.println("""
-                Você entrou em uma caverna muito escura, quando de repente... 
-                """);
+    private void explorarCenario(
+            Cenario cenario,
+            Personagem personagem,
+            Inventario inventario) {
 
-        int resultado = sorteioEvento(4);
+        System.out.println();
+        System.out.println(
+                "Voce entrou em: " +
+                cenario
+        );
 
-        switch (resultado) {
-            case 0:
-                System.out.println("Você entrou em combate contra uma criatura assustadora! ");
-                combate("Caverna");
-                break;
-            case 1:
-                System.out.println("Você encontrou um baú! ");
-                dinheiroBau();
-                break;
-            case 2:
-                System.out.println("Você encontrou um item!");
-                //ganhou um item ai
-                break;
-            case 3:
-                System.out.println("Nada aconteceu...");
-                break;
+        Evento evento = sortearEvento();
 
-        }
+        evento.executar(
+                personagem,
+                inventario,
+                combate
+        );
     }
 
-    private void floresta() {
-        System.out.println("""
-                Você entrou em uma floresta gigantesca, quando de repente... 
-                """);
-        int resultado = sorteioEvento(4);
+    private Evento sortearEvento() {
 
-        switch (resultado) {
-            case 0:
-                System.out.println("Você entrou em combate contra uma criatura assustadora! ");
-                combate("Floresta");
-                break;
-            case 1:
-                System.out.println("Você encontrou um baú! ");
-                dinheiroBau();
-                break;
-            case 2:
-                System.out.println("Você encontrou um item!");
-                //ganhou um item ai
-                break;
-            case 3:
-                System.out.println("Nada aconteceu...");
-                break;
-
-        }
-    }
-
-    private void masmorra() {
-
-        System.out.println("""
-                Você entrou em uma masmorra tenebrosa, quando de repente... 
-                """);
-        int resultado = sorteioEvento(4);
-
-
-        switch (resultado) {
-            case 0:
-                System.out.println("Você entrou em combate contra uma criatura assustadora! ");
-                combate("Masmorra");
-                break;
-            case 1:
-                System.out.println("Você encontrou um baú! ");
-                dinheiroBau();
-                break;
-            case 2:
-                System.out.println("Você encontrou um item!");
-                //ganhou um item ai
-                break;
-            case 3:
-                System.out.println("Nada aconteceu...");
-                break;
-
-        }
-    }
-
-    private void castelo() {
-        System.out.println("""
-                Você finalmente entrou no castelo, quando de repente... 
-                """);
-        int resultado = sorteioEvento(4);
-
-        switch (resultado) {
-            case 0:
-                System.out.println("Você entrou em combate contra uma criatura assustadora! ");
-                combate("Castelo");
-                break;
-            case 1:
-                System.out.println("Você encontrou um baú! ");
-                dinheiroBau();
-                break;
-            case 2:
-                System.out.println("Você encontrou um item!");
-                //ganhou um item ai
-                break;
-            case 3:
-                System.out.println("Nada aconteceu...");
-                break;
-
-        }
-    }
-
-
-    private int sorteioEvento(int bound) {
         Random random = new Random();
-        return random.nextInt(bound);
-    }
 
-    private void dinheiroBau() {
-        int resultado = sorteioEvento(3);
+        int resultado = random.nextInt(4);
 
         switch (resultado) {
+
             case 0:
-                //dinheiro += 100;
-                System.out.println("você ganhou 100 reais!!!");
-                break;
+                return new EventoCombate();
+
             case 1:
-                //dinheiro += 120;
-                System.out.println("você ganhou 120 reais!!!");
-                break;
+                return new EventoTesouro();
+
             case 2:
-                //dinheiro += 150
-                System.out.println("você ganhou 150 reais!!!");
+                return new EventoItem();
+
+            default:
+                return new EventoNada();
         }
-    }
-
-
-    public void combate(String cenario) {
-
-        int resultado = sorteioEvento(3);
-
-        if (cenario.equalsIgnoreCase("Floresta")) {
-            switch (resultado) {
-                case 0:
-                    System.out.println("Você encontrou um urso faminto!!!");
-                    break;
-                case 1:
-                    System.out.println("Você encontrou um goblin maluco!!!");
-                    break;
-                case 2:
-                    System.out.println("Você encontrou um javali furioso");
-                    break;
-
-            }
-
-
-        } else if (cenario.equalsIgnoreCase("Caverna")) {
-            switch (resultado) {
-                case 0:
-                    System.out.println("Você encontrou um morcego!!!");
-                    break;
-                case 1:
-                    System.out.println("Você encontrou uma aranha peludaça!!!");
-                    break;
-                case 2:
-                    System.out.println("Você encontrou um troll com uma faquinha de serra");
-                    break;
-
-            }
-        }
-
-        else if (cenario.equalsIgnoreCase("Masmorra")) {
-            switch (resultado) {
-                case 0:
-                    System.out.println("Você encontrou um esqueleto dançarino!!!");
-                    break;
-                case 1:
-                    System.out.println("Você encontrou um rato gigante!!!");
-                    break;
-                case 2:
-                    System.out.println("Você encontrou uma múmia muito louca!!!");
-                    break;
-
-            }
-        }
-
-        else if (cenario.equalsIgnoreCase("Castelo")) {
-            switch (resultado) {
-                case 0:
-                    System.out.println("Você encontrou um guarda!!!");
-                    break;
-                case 1:
-                    System.out.println("Você encontrou um mago!!!");
-                    break;
-                case 2:
-                    System.out.println("Você encontrou o fantasma do rei!!!");
-                    break;
-
-            }
-        }
-
     }
 }
