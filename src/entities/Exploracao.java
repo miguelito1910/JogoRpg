@@ -1,14 +1,16 @@
 package entities;
 
 import service.SorteiaEvento;
+
+import java.util.Locale;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Exploracao {
-    private Scanner sc = new Scanner(System.in);
-    private SorteiaEvento sorteio = new SorteiaEvento();
-    private Inventario inventario; // Conexão com seu módulo
+    Scanner sc = new Scanner(System.in);
+    SorteiaEvento sorteio = new SorteiaEvento();
+    private Inventario inventario;
 
-    // Construtor recebendo o inventário do jogador
     public Exploracao(Inventario inventario) {
         this.inventario = inventario;
     }
@@ -16,6 +18,7 @@ public class Exploracao {
     public void menuExploracao() {
         int opcao = 0;
         do {
+
             System.out.println("""
                     Escolha a sua jornada:
                     1 - Floresta
@@ -24,194 +27,282 @@ public class Exploracao {
                     4 - Castelo
                     5 - Retornar ao menu principal
                     0 - Sair
-                    """);
+                    """
+            );
             opcao = sc.nextInt();
             sc.nextLine();
             switch (opcao) {
-                case 1 -> floresta();
-                case 2 -> caverna();
-                case 3 -> masmorra();
-                case 4 -> castelo();
+                case 1:
+                    floresta();
+                    break;
+                case 2:
+                    caverna();
+                    break;
+                case 3:
+                    masmorra();
+                    break;
+                case 4:
+                    castelo();
+                    break;
+                case 5:
+                    //voltar();
+                    break;
             }
         } while (opcao != 0);
     }
 
     private void caverna() {
         try {
-            System.out.println("Você entrou em uma caverna muito escura, quando de repente...\n");
+            System.out.println("""
+                    Você entrou em uma caverna muito escura, quando de repente... 
+                    """);
             Thread.sleep(2000);
-            int resultado = sorteio.sorteioEvento(4);
+            int resultado = 2;
+            //sorteioEvento(4);
 
             switch (resultado) {
-                case 0 -> {
-                    System.out.println("Você entrou em combate contra uma criatura assustadora!");
+                case 0:
+                    System.out.println("Você entrou em combate contra uma criatura assustadora! ");
                     Thread.sleep(2000);
                     combate("Caverna");
-                }
-                case 1 -> {
-                    System.out.println("Você encontrou um baú!");
+                    break;
+                case 1:
+                    System.out.println("Você encontrou um baú! ");
                     Thread.sleep(2000);
                     dinheiroBau();
-                }
-                case 2 -> {
+                    break;
+                case 2:
                     System.out.println("Você encontrou um item!");
-                    Pocao pocaoEncontrada = new Pocao("Poção Misteriosa", 20, 30);
-                    inventario.adicionarItem(pocaoEncontrada); // Adiciona ao seu inventário
+                    Pocao pocaoCaverna = new Pocao("Poção de Vida", 30, 40);
+                    inventario.adicionarItem(pocaoCaverna);
                     Thread.sleep(2000);
-                }
-                case 3 -> {
+                    System.out.println("Aperte enter para continuar: ");
+                    sc.nextLine();
+                    break;
+                case 3:
                     System.out.println("Nada aconteceu...");
                     Thread.sleep(2000);
-                }
+                    System.out.println("Aperte enter para continuar: ");
+                    sc.nextLine();
+                    break;
             }
-            System.out.println("Aperte ENTER para continuar...");
-            sc.nextLine();
         } catch (InterruptedException e) {
-            System.out.println("Erro na pausa do sistema.");
+            System.out.println("Deu erro nas pausas");
         }
+
     }
 
     private void floresta() {
         try {
-            System.out.println("Você entrou em uma floresta gigantesca, quando de repente...\n");
+            System.out.println("""
+                    Você entrou em uma floresta gigantesca, quando de repente... 
+                    """);
             Thread.sleep(2000);
             int resultado = sorteio.sorteioEvento(4);
 
             switch (resultado) {
-                case 0 -> {
-                    System.out.println("Você entrou em combate contra uma criatura assustadora!");
+                case 0:
+                    System.out.println("Você entrou em combate contra uma criatura assustadora! ");
                     Thread.sleep(2000);
                     combate("Floresta");
-                }
-                case 1 -> {
-                    System.out.println("Você encontrou um baú!");
+                    break;
+                case 1:
+                    System.out.println("Você encontrou um baú! ");
                     Thread.sleep(2000);
                     dinheiroBau();
-                }
-                case 2 -> {
+                    System.out.println("Aperte enter para continuar: ");
+                    sc.nextLine();
+                    break;
+                case 2:
                     System.out.println("Você encontrou um item!");
-                    Arma espadaAchada = new Arma("Adaga de Madeira", 15, 5);
-                    inventario.adicionarItem(espadaAchada);
+                    Arma espadaFloresta = new Arma("Adaga de Madeira", 20, 5);
+                    inventario.adicionarItem(espadaFloresta);
                     Thread.sleep(2000);
-                }
-                case 3 -> {
+                    System.out.println("Aperte enter para continuar: ");
+                    sc.nextLine();
+                    break;
+                case 3:
                     System.out.println("Nada aconteceu...");
                     Thread.sleep(2000);
-                }
+                    System.out.println("Aperte enter para continuar: ");
+                    sc.nextLine();
+                    break;
             }
-            System.out.println("Aperte ENTER para continuar...");
-            sc.nextLine();
-        } catch (InterruptedException e) {
-            System.out.println("Erro na pausa do sistema.");
+        } catch (InterruptedException e){
+            System.out.println("Deu erro ai");
+
         }
     }
 
+
     private void masmorra() {
-        try {
-            System.out.println("Você entrou em uma masmorra tenebrosa, quando de repente...\n");
+        try{
+            System.out.println("""
+                Você entrou em uma masmorra tenebrosa, quando de repente... 
+                """);
             Thread.sleep(2000);
             int resultado = sorteio.sorteioEvento(4);
 
+
             switch (resultado) {
-                case 0 -> {
-                    System.out.println("Você entrou em combate contra uma criatura assustadora!");
+                case 0:
+                    System.out.println("Você entrou em combate contra uma criatura assustadora! ");
                     Thread.sleep(2000);
                     combate("Masmorra");
-                }
-                case 1 -> {
-                    System.out.println("Você encontrou um baú!");
+                    break;
+                case 1:
+                    System.out.println("Você encontrou um baú! ");
                     Thread.sleep(2000);
                     dinheiroBau();
-                }
-                case 2 -> {
+                    System.out.println("Aperte enter para continuar: ");
+                    sc.nextLine();
+                    break;
+                case 2:
                     System.out.println("Você encontrou um item!");
-                    Pocao pocaoVida = new Pocao("Poção de Vida", 30, 50);
-                    inventario.adicionarItem(pocaoVida);
+                    Pocao pocaoMasmorra = new Pocao("Poção Grande de Vida", 50, 70);
+                    inventario.adicionarItem(pocaoMasmorra);
                     Thread.sleep(2000);
-                }
-                case 3 -> {
+                    System.out.println("Aperte enter para continuar: ");
+                    sc.nextLine();
+                    break;
+                case 3:
                     System.out.println("Nada aconteceu...");
                     Thread.sleep(2000);
-                }
+                    System.out.println("Aperte enter para continuar: ");
+                    sc.nextLine();
+                    break;
             }
-            System.out.println("Aperte ENTER para continuar...");
-            sc.nextLine();
-        } catch (InterruptedException e) {
-            System.out.println("Erro na pausa do sistema.");
+        } catch(InterruptedException e){
+            System.out.println("erro ai");
         }
     }
 
     private void castelo() {
-        try {
-            System.out.println("Você finalmente entrou no castelo, quando de repente...\n");
+        try{
+            System.out.println("""
+                Você finalmente entrou no castelo, quando de repente... 
+                """);
             Thread.sleep(2000);
             int resultado = sorteio.sorteioEvento(4);
 
             switch (resultado) {
-                case 0 -> {
-                    System.out.println("Você entrou em combate contra uma criatura assustadora!");
+                case 0:
+                    System.out.println("Você entrou em combate contra uma criatura assustadora! ");
                     Thread.sleep(2000);
                     combate("Castelo");
-                }
-                case 1 -> {
-                    System.out.println("Você encontrou um baú!");
+                    break;
+                case 1:
+                    System.out.println("Você encontrou um baú! ");
                     Thread.sleep(2000);
                     dinheiroBau();
-                }
-                case 2 -> {
+                    System.out.println("Aperte enter para continuar: ");
+                    sc.nextLine();
+                    break;
+                case 2:
                     System.out.println("Você encontrou um item!");
-                    Armadura armaduraReluzente = new Armadura("Escudo Real", 80, 15);
-                    inventario.adicionarItem(armaduraReluzente);
+                    Armadura armaduraCastelo = new Armadura("Escudo de Aço", 100, 15);
+                    inventario.adicionarItem(armaduraCastelo);
                     Thread.sleep(2000);
-                }
-                case 3 -> {
+                    System.out.println("Aperte enter para continuar: ");
+                    sc.nextLine();
+                    break;
+                case 3:
                     System.out.println("Nada aconteceu...");
                     Thread.sleep(2000);
-                }
+                    System.out.println("Aperte enter para continuar: ");
+                    sc.nextLine();
+                    break;
             }
-            System.out.println("Aperte ENTER para continuar...");
-            sc.nextLine();
-        } catch (InterruptedException e) {
-            System.out.println("Erro na pausa do sistema.");
+        } catch (InterruptedException e){
+            System.out.println("Deu erro");
         }
     }
+
+
+
 
     private void dinheiroBau() {
-        int resultado = sorteio.sorteioEvento(3);
+        int resultado = sorteio.sorteioEvento(4);
+
         switch (resultado) {
-            case 0 -> System.out.println("Você ganhou 100 moedas de ouro!!!");
-            case 1 -> System.out.println("Você ganhou 120 moedas de ouro!!!");
-            case 2 -> System.out.println("Você ganhou 150 moedas de ouro!!!");
+            case 0:
+                //dinheiro += 100;
+                System.out.println("você ganhou 100 reais!!!");
+                break;
+            case 1:
+                //dinheiro += 120;
+                System.out.print("você ganhou 120 reais!!!");
+                break;
+            case 2:
+                //dinheiro += 150
+                System.out.println("você ganhou 150 reais!!!");
         }
     }
 
+
     public void combate(String cenario) {
-        int resultado = sorteio.sorteioEvento(3);
+
+        int resultado = sorteio.sorteioEvento(4);
 
         if (cenario.equalsIgnoreCase("Floresta")) {
             switch (resultado) {
-                case 0 -> System.out.println("Você encontrou um urso faminto!!!");
-                case 1 -> System.out.println("Você encontrou um goblin maluco!!!");
-                case 2 -> System.out.println("Você encontrou um javali furioso!");
+                case 0:
+                    System.out.println("Você encontrou um urso faminto!!!");
+                    break;
+                case 1:
+                    System.out.println("Você encontrou um goblin maluco!!!");
+                    break;
+                case 2:
+                    System.out.println("Você encontrou um javali furioso");
+                    break;
+
             }
+
+
         } else if (cenario.equalsIgnoreCase("Caverna")) {
             switch (resultado) {
-                case 0 -> System.out.println("Você encontrou um morcego!!!");
-                case 1 -> System.out.println("Você encontrou uma aranha peludaça!!!");
-                case 2 -> System.out.println("Você encontrou um troll com uma faquinha de serra!");
-            }
-        } else if (cenario.equalsIgnoreCase("Masmorra")) {
-            switch (resultado) {
-                case 0 -> System.out.println("Você encontrou um esqueleto dançarino!!!");
-                case 1 -> System.out.println("Você encontrou um rato gigante!!!");
-                case 2 -> System.out.println("Você encontrou uma múmia muito louca!!!");
-            }
-        } else if (cenario.equalsIgnoreCase("Castelo")) {
-            switch (resultado) {
-                case 0 -> System.out.println("Você encontrou um guarda!!!");
-                case 1 -> System.out.println("Você encontrou um mago!!!");
-                case 2 -> System.out.println("Você encontrou o fantasma do rei!!!");
+                case 0:
+                    System.out.println("Você encontrou um morcego!!!");
+                    break;
+                case 1:
+                    System.out.println("Você encontrou uma aranha peludaça!!!");
+                    break;
+                case 2:
+                    System.out.println("Você encontrou um troll com uma faquinha de serra");
+                    break;
+
             }
         }
+
+        else if (cenario.equalsIgnoreCase("Masmorra")) {
+            switch (resultado) {
+                case 0:
+                    System.out.println("Você encontrou um esqueleto dançarino!!!");
+                    break;
+                case 1:
+                    System.out.println("Você encontrou um rato gigante!!!");
+                    break;
+                case 2:
+                    System.out.println("Você encontrou uma múmia muito louca!!!");
+                    break;
+
+            }
+        }
+
+        else if (cenario.equalsIgnoreCase("Castelo")) {
+            switch (resultado) {
+                case 0:
+                    System.out.println("Você encontrou um guarda!!!");
+                    break;
+                case 1:
+                    System.out.println("Você encontrou um mago!!!");
+                    break;
+                case 2:
+                    System.out.println("Você encontrou o fantasma do rei!!!");
+                    break;
+
+            }
+        }
+
     }
 }
