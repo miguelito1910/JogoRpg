@@ -40,6 +40,6 @@ public class GerarInimigos {
         }
 
         throw new IllegalArgumentException("Cenário ou evento inválido!");
-        // opa
+        //
     }
 }

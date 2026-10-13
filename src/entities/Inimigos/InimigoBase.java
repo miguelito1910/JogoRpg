@@ -5,24 +5,20 @@ public class InimigoBase {
     private int vidaMax;
     private int vidaAtual;
     private int ataqueBase;
-    private int xpMin;
-    private int xpMax;
     private int ouroMin;
     private int ouroMax;
 
-    // Construtor
-    public InimigoBase(String nome, int vida, int ataqueBase, int xpMin, int xpMax, int ouroMin, int ouroMax) {
+    // Construtor sem XP
+    public InimigoBase(String nome, int vida, int ataqueBase, int ouroMin, int ouroMax) {
         this.nome = nome;
         this.vidaMax = vida;
         this.vidaAtual = vida;
         this.ataqueBase = ataqueBase;
-        this.xpMin = xpMin;
-        this.xpMax = xpMax;
         this.ouroMin = ouroMin;
         this.ouroMax = ouroMax;
     }
 
-    // Métodos de utilidade do combate
+    // Métodos de combate
     public boolean estaVivo() {
         return this.vidaAtual > 0;
     }
@@ -43,8 +39,6 @@ public class InimigoBase {
     public int getVidaAtual() { return vidaAtual; }
     public int getVidaMax() { return vidaMax; }
     public int getAtaqueBase() { return ataqueBase; }
-    public int getXpMin() { return xpMin; }
-    public int getXpMax() { return xpMax; }
     public int getOuroMin() { return ouroMin; }
     public int getOuroMax() { return ouroMax; }
 }
